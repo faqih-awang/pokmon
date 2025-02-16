@@ -22,12 +22,11 @@ async def on_ready():
 async def go(ctx):
     author = ctx.author.name  # Getting the name of the message's author
     # Check whether the user already has a Pokémon. If not, then...
-    if author not in Pokemon.pokemons.keys():
+    if author not in Pokemon.trainers.keys():
         pokemon = Pokemon(author)  # Creating a new Pokémon
-        await ctx.send(await pokemon.info())  # Sending information about the Pokémon
         image_url = await pokemon.show_img()  # Getting the URL of the Pokémon image
         if image_url:
-            embed = discord.Embed()  # Creating an embed message
+            embed = discord.Embed(title= await pokemon.get_name(), description=f'Weight: {await pokemon.get_weight()}')  # Creating an embed message
             embed.set_image(url=image_url)  # Setting up the Pokémon's image
             await ctx.send(embed=embed)  # Sending an embedded message with an image
         else:
